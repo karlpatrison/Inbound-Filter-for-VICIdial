@@ -19,6 +19,7 @@ exten => _X.,n,Hangup()
 exten => _X.,1,AGI(/usr/src/agi-scripts/whitelist.php,${CALLERID(num)})
 exten => _X.,n,AGI(agi-DID_route.agi)
 exten => _X.,n,Hangup()
+
 📂 Step 2: Create AGI Script Directory
 cd /usr/src/
 mkdir agi-scripts
