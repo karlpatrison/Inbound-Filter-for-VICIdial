@@ -45,6 +45,11 @@ chmod -R 755 /usr/src/agi-scripts/*.php
 asterisk -rx "dialplan reload"
 ```
 🗄️ Step 6: Setup MySQL Tables
+Login to MySQL:
+```
+mysql -u root asterisk
+```
+Create the call log table:
 ```
 CREATE TABLE cli_call_logs_all (
   id INT AUTO_INCREMENT PRIMARY KEY,
@@ -55,7 +60,7 @@ CREATE TABLE cli_call_logs_all (
   lead_id INT DEFAULT NULL
 );
 ```
-
+Create the daily call count tracker:
 ```
 CREATE TABLE cli_call_limits (
   id INT AUTO_INCREMENT PRIMARY KEY,
@@ -64,7 +69,12 @@ CREATE TABLE cli_call_limits (
   call_count INT DEFAULT 0
 );
 ```
-⏰ Step 7: Setup Crontab Jobs
+🧼 Step 7: Setup Auto-Cleanup with Crontab
+Edit crontab:
+```
+crontab -e
+```
+Add the following lines to reset call limits and clean up old logs daily at 1:00 AM:
 ```
 ### Reset call limits daily
 0 1 * * * mysql -u root asterisk -e "DELETE FROM cli_call_limits WHERE call_date < CURDATE();"
