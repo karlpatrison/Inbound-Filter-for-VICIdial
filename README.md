@@ -70,3 +70,9 @@ VICIdial 2.14 with Asterisk 16
 VICIdial with Asterisk 11
 
 ViciBox 11/12 (OpenSUSE Leap)
+
+[trunkinbound]
+exten => _X.,1,AGI(/usr/src/agi-scripts/whitelist.php,${CALLERID(num)})
+exten => _X.,n,AGI(agi-DID_route.agi)
+exten => _X.,n,Hangup()
+
