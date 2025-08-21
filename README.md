@@ -30,9 +30,10 @@ mkdir agi-scripts
 ```
 📥 Step 3: Copy AGI Scripts
 ```cd /usr/src/agi-scripts
-wget https://github.com/yourusername/Inbound-Filter-for-VICIdial/raw/main/agi-scripts/whitelist.php
-wget https://github.com/yourusername/Inbound-Filter-for-VICIdial/raw/main/agi-scripts/phpagi.php
-wget https://github.com/yourusername/Inbound-Filter-for-VICIdial/raw/main/agi-scripts/phpagi-asmanager.php
+cd /usr/src/agi-scripts
+wget https://raw.githubusercontent.com/sihpl/Inbound-Filter-In-Vicidial/main/agi-scripts/phpagi-asmanager.php
+wget https://raw.githubusercontent.com/sihpl/Inbound-Filter-In-Vicidial/main/agi-scripts/phpagi.php
+wget https://raw.githubusercontent.com/sihpl/Inbound-Filter-In-Vicidial/main/agi-scripts/whitelist.php
 ```
 🔑 Step 4: Set Permissions
 ```chmod -R 755 /usr/src/agi-scripts/*.php
