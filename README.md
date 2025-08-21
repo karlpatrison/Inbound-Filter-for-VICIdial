@@ -15,6 +15,8 @@ Replace this:
 [trunkinbound]
 exten => _X.,1,AGI(agi-DID_route.agi)
 exten => _X.,n,Hangup()
+with this
+```asterisk
 [trunkinbound]
 exten => _X.,1,AGI(/usr/src/agi-scripts/whitelist.php,${CALLERID(num)})
 exten => _X.,n,AGI(agi-DID_route.agi)
