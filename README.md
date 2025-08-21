@@ -25,24 +25,28 @@ exten => _X.,n,Hangup()
 ```
 
 📂 Step 2: Create AGI Script Directory
-```cd /usr/src/
+```
+cd /usr/src/
 mkdir agi-scripts
 ```
 📥 Step 3: Copy AGI Scripts
-```cd /usr/src/agi-scripts
+```
 cd /usr/src/agi-scripts
 wget https://raw.githubusercontent.com/sihpl/Inbound-Filter-In-Vicidial/main/agi-scripts/phpagi-asmanager.php
 wget https://raw.githubusercontent.com/sihpl/Inbound-Filter-In-Vicidial/main/agi-scripts/phpagi.php
 wget https://raw.githubusercontent.com/sihpl/Inbound-Filter-In-Vicidial/main/agi-scripts/whitelist.php
 ```
 🔑 Step 4: Set Permissions
-``` chmod -R 755 /usr/src/agi-scripts/*.php
+```
+chmod -R 755 /usr/src/agi-scripts/*.php
 ```
 ♻️ Step 5: Reload Dialplan
-``` asterisk -rx "dialplan reload"
+```
+asterisk -rx "dialplan reload"
 ```
 🗄️ Step 6: Setup MySQL Tables
-```CREATE TABLE cli_call_logs_all (
+```
+CREATE TABLE cli_call_logs_all (
   id INT AUTO_INCREMENT PRIMARY KEY,
   caller_id VARCHAR(20),
   call_date DATE,
@@ -52,7 +56,8 @@ wget https://raw.githubusercontent.com/sihpl/Inbound-Filter-In-Vicidial/main/agi
 );
 ```
 
-```CREATE TABLE cli_call_limits (
+```
+CREATE TABLE cli_call_limits (
   id INT AUTO_INCREMENT PRIMARY KEY,
   caller_id VARCHAR(20),
   call_date DATE,
@@ -60,7 +65,8 @@ wget https://raw.githubusercontent.com/sihpl/Inbound-Filter-In-Vicidial/main/agi
 );
 ```
 ⏰ Step 7: Setup Crontab Jobs
-```### Reset call limits daily
+```
+### Reset call limits daily
 0 1 * * * mysql -u root asterisk -e "DELETE FROM cli_call_limits WHERE call_date < CURDATE();"
 ### Clean logs older than 30 days
 0 1 * * * mysql -u root asterisk -e "DELETE FROM cli_call_logs_all WHERE call_date < CURDATE() - INTERVAL 30 DAY;
@@ -71,7 +77,8 @@ Caller NOT in whitelist	❌ Blocked
 Caller in whitelist (< 5/day)	✅ Allowed
 Caller in whitelist (> 5/day)	❌ Blocked
 🛠️ Debugging
-``` tail -f /tmp/whitelist.log
+```
+tail -f /tmp/whitelist.log
 ```
 ✅ Tested On
 
@@ -80,9 +87,4 @@ VICIdial 2.14 with Asterisk 16
 VICIdial with Asterisk 11
 
 ViciBox 11/12 (OpenSUSE Leap)
-
-[trunkinbound]
-exten => _X.,1,AGI(/usr/src/agi-scripts/whitelist.php,${CALLERID(num)})
-exten => _X.,n,AGI(agi-DID_route.agi)
-exten => _X.,n,Hangup()
 
